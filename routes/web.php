@@ -20,4 +20,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/logs', 'LogController@index');
-Route::get('/log/{id}', 'LogController@show');
+Route::get('/logs/data', 'LogController@data');
+Route::get('/logentries', 'LogEntryController@index');
+Route::post('/logentries/data', 'LogEntryController@data');

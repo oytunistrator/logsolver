@@ -16,7 +16,7 @@ class LogController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -35,6 +35,16 @@ class LogController extends Controller
     public function create()
     {
         //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function data()
+    {
+        return datatables()->of(Log::all())->toJson();
     }
 
     /**
