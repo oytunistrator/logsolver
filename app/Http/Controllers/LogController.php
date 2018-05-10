@@ -28,13 +28,35 @@ class LogController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function uploader()
+    {
+        return view("logfiles/uploader");
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function store(Request $request)
     {
-        //
+        $result['result'] = false;
+        if ($request->file('file')) {
+            $result['file'] = $request->file('file')->getClientOriginalName();
+            $result['ext'] = $request->file('file')->getClientOriginalExtension();
+            $result['target_name'] = md5($result['file'].microtime()).".".$result['ext'];
+            $result['uploaded'] = $request->file('file')->storeAs('images', $result['target_name']);
+            $result['result'] = true;
+
+            $log = new Log();
+            $log->filename = $request->file('file')->storeAs('images', $result['target_name']);
+            $log->save();
+        }
+        return response()->json($result);
     }
 
     /**
@@ -45,61 +67,5 @@ class LogController extends Controller
     public function data()
     {
         return datatables()->of(Log::all())->toJson();
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Log  $log
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Log $log)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Log  $log
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Log $log)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Log  $log
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Log $log)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Log  $log
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Log $log)
-    {
-        //
     }
 }
