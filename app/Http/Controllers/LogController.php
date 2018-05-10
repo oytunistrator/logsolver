@@ -32,6 +32,21 @@ class LogController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function delete($id)
+    {
+        $log = Log::find($id);
+        //Log::delete($id);
+        if($log){
+            $log->delete();
+        }
+        return back()->withInput();
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function uploader()
     {
         return view("logfiles/uploader");

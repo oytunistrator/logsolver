@@ -11,7 +11,7 @@ require('./bootstrap');
 $('#datatables').DataTable({
     "processing": true,
     "serverSide": true,
-    "ajax": "/logs/data",
+    "ajax": window.location.href + "/data",
     "columns": [
         { "data": "id" },
         { "data": "filename" },
@@ -19,7 +19,7 @@ $('#datatables').DataTable({
         {
             "targets": 7,
             "render": function(data, type, row, meta) {
-                return '<a class="btn" href="/logs/delete/' + row.id + '">Sil</a>';
+                return '<a class="btn" href="' + window.location.href + '/delete/' + row.id + '">Sil</a>';
             }
         }
     ]

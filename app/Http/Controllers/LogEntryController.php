@@ -24,7 +24,7 @@ class LogEntryController extends Controller
      */
     public function index()
     {
-        //
+        return view("logentry/logentries");
     }
 
     public function data()

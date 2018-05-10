@@ -28946,11 +28946,11 @@ __webpack_require__(13);
 $('#datatables').DataTable({
     "processing": true,
     "serverSide": true,
-    "ajax": "/logs/data",
+    "ajax": window.location.href + "/data",
     "columns": [{ "data": "id" }, { "data": "filename" }, { "data": "created_at" }, {
         "targets": 7,
         "render": function render(data, type, row, meta) {
-            return '<a class="btn" href="/logs/delete/' + row.id + '">Sil</a>';
+            return '<a class="btn" href="' + window.location.href + '/delete/' + row.id + '">Sil</a>';
         }
     }]
 });
