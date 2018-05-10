@@ -15,7 +15,13 @@ $('#datatables').DataTable({
     "columns": [
         { "data": "id" },
         { "data": "filename" },
-        { "data": "created_at" }
+        { "data": "created_at" },
+        {
+            "targets": 7,
+            "render": function(data, type, row, meta) {
+                return '<a class="btn" href="/logs/delete/' + row.id + '">Sil</a>';
+            }
+        }
     ]
 });
 

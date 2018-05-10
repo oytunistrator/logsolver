@@ -21,6 +21,7 @@
                                 <th>IDX</th>
                                 <th>FileName</th>
                                 <th>Date/Time</th>
+                                <th></th>
                             </tr>
                         </thead>
                     </table>
