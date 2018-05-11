@@ -28950,7 +28950,7 @@ $('#datatables').DataTable({
     "columns": [{ "data": "id" }, { "data": "filename" }, { "data": "created_at" }, {
         "targets": 7,
         "render": function render(data, type, row, meta) {
-            return '<a class="btn" href="' + window.location.href + '/delete/' + row.id + '">Sil</a>';
+            return '<a class="btn" href="' + window.location.href + '/delete/' + row.id + '">Delete</a> <a class="btn" href="' + window.location.href + '/view/' + row.id + '">View</a>';
         }
     }]
 });

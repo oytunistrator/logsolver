@@ -22,6 +22,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/logs', 'LogController@index');
 Route::get('/logs/data', 'LogController@data');
 Route::get('/logs/delete/{id}', 'LogController@delete');
+Route::get('/logs/view/{id}', 'LogController@view');
 Route::get('/logs/uploader', 'LogController@uploader');
 Route::post('/logs/store', 'LogController@store');
 Route::get('/logentries', 'LogEntryController@index');
