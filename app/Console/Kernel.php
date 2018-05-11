@@ -5,8 +5,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use App\Log;
-use App\LogEntry;
+use App\LogResolver;
 
 class Kernel extends ConsoleKernel
 {
@@ -31,6 +30,8 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
         $schedule->call(function () {
             /* Get all log files and open file every line detect and write to LogEntry */
+            $resolver = new LogResolver('tomcat');
+            $resolver->lineResolver();
         })->everyMinute();
     }
 

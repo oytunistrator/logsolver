@@ -70,6 +70,8 @@ class LogController extends Controller
 
             $log = new Log();
             $log->filename = $request->file('file')->storeAs('logfiles', $result['target_name']);
+            $log->done=false;
+            $log->linecount=0;
             $log->save();
         }
         return response()->json($result);

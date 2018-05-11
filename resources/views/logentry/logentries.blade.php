@@ -15,7 +15,7 @@
                     @endif
                     
 
-                    <table id="datatables" class="display" style="width:100%" class="table">
+                    <table class="logentries" class="display" style="width:100%" class="table">
                         <thead>
                             <tr>
                                 <th>IDX</th>

@@ -15,9 +15,10 @@ class CreateLogEntriesTable extends Migration
     {
         Schema::create('log_entries', function (Blueprint $table) {
             $table->increments('id');
-            $table->string("type")->nullable(true);
-            $table->string("entry")->nullable(true);
+            $table->text("type")->nullable(true);
+            $table->text("entry")->nullable(true);
             $table->integer("logs_id");
+            $table->bigInteger("line");
             $table->timestamps();
         });
     }

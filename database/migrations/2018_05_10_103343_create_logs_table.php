@@ -16,6 +16,8 @@ class CreateLogsTable extends Migration
         Schema::create('logs', function (Blueprint $table) {
             $table->increments('id');
             $table->text('filename');
+            $table->boolean('done');
+            $table->bigInteger('linecount');
             $table->timestamps();
         });
     }

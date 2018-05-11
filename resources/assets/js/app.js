@@ -8,22 +8,37 @@ require('./bootstrap');
 
 //window.Vue = require('vue');
 
-$('#datatables').DataTable({
-    "processing": true,
-    "serverSide": true,
-    "ajax": window.location.href + "/data",
-    "columns": [
+const dtGenerator = function(id, columns) {
+    columns.push({
+        "targets": 7,
+        "render": function(data, type, row, meta) {
+            return '<a class="btn" href="' + window.location.href + '/delete/' + row.id + '">Delete</a> <a class="btn" href="' + window.location.href + '/view/' + row.id + '">View</a>';
+        }
+    });
+
+    $(id).DataTable({
+        "processing": true,
+        "serverSide": true,
+        "ajax": window.location.href + "/data",
+        "columns": columns
+    });
+};
+
+if ($(".logs").length > 0) {
+    dtGenerator(".logs", [
         { "data": "id" },
         { "data": "filename" },
-        { "data": "created_at" },
-        {
-            "targets": 7,
-            "render": function(data, type, row, meta) {
-                return '<a class="btn" href="' + window.location.href + '/delete/' + row.id + '">Delete</a> <a class="btn" href="' + window.location.href + '/view/' + row.id + '">View</a>';
-            }
-        }
-    ]
-});
+        { "data": "created_at" }
+    ]);
+}
+
+if ($(".logentries").length > 0) {
+    dtGenerator(".logentries", [
+        { "data": "id" },
+        { "data": "filename" },
+        { "data": "created_at" }
+    ]);
+}
 
 $(".progress").hide();
 
