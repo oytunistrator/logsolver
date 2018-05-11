@@ -10,6 +10,16 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
+        <!-- Scripts -->
+        <script src="{{ asset('js/app.js') }}" defer></script>
+
+        <!-- Fonts -->
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
+
+        <!-- Styles -->
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
         <!-- Styles -->
         <style>
             html, body {
@@ -41,6 +51,12 @@
                 top: 18px;
             }
 
+            .top-left {
+                position: absolute;
+                left: 10px;
+                top: 18px;
+            }
+
             .content {
                 text-align: center;
             }
@@ -66,6 +82,17 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
+            <div class="top-left links">
+            <span class="badge badge-danger">
+                    ERROR: <span class="error-count">{{ $error }}</span>
+                </span>
+                <span class="badge badge-warning">
+                    WARNING: <span class="warning-count">{{ $warning }}</span>
+                </span>
+                <span class="badge badge-info">
+                    INFO: <span class="info-count">{{ $info }}</span>
+                </span>
+            </div>
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
@@ -80,6 +107,14 @@
                 <div class="title m-b-md">
                     Log Solver
                 </div>
+                <div class="row">
+                    <h2>Total solved 
+                    <span class="badge badge-success">
+                        {{ $total }}
+                    </span>
+                    log entries found on system.
+                </div>
+                
             </div>
         </div>
     </body>

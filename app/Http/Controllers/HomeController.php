@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\LogEntry;
 
 class HomeController extends Controller
 {
@@ -23,6 +24,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $data = [];
+        $data['error'] = LogEntry::where('type','=','ERROR')->count() + LogEntry::where('type','=','EXCEPTION')->count();
+        $data['warning'] = LogEntry::where('type','=','WARNING')->count();
+        $data['info'] = LogEntry::where('type','=','INFO')->count();
+        $data['total'] = $data['error'] + $data['warning'] + $data['info'];
+
+        return view('welcome', $data);
     }
 }
