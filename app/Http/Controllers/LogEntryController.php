@@ -27,8 +27,13 @@ class LogEntryController extends Controller
         return view("logentry/logentries");
     }
 
-    public function data()
+    public function data(Request $request)
     {
-        return datatables()->of(LogEntry::all())->toJson();
+        if(isset($request->type)){
+            $data = LogEntry::where('type', '=', $request->type)->get();
+        }else{
+            $data = LogEntry::all();
+        }
+        return datatables()->of($data)->toJson();
     }
 }

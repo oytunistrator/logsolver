@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Uploaded Log Files <div class="float-right"><a href="/logs/uploader" class="btn btn-primary btn-sm">Upload File</a></div></div>
+                <div class="card-header">Log Entries</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -19,7 +19,8 @@
                         <thead>
                             <tr>
                                 <th>IDX</th>
-                                <th>FileName</th>
+                                <th>Type</th>
+                                <th>Entry</th>
                                 <th>Date/Time</th>
                                 <th></th>
                             </tr>

@@ -8,7 +8,7 @@ require('./bootstrap');
 
 //window.Vue = require('vue');
 
-const dtGenerator = function(id, columns) {
+window.dtGenerator = function(id, columns, ajax) {
     columns.push({
         "targets": 7,
         "render": function(data, type, row, meta) {
@@ -19,25 +19,33 @@ const dtGenerator = function(id, columns) {
     $(id).DataTable({
         "processing": true,
         "serverSide": true,
-        "ajax": window.location.href + "/data",
+        "ajax": ajax,
         "columns": columns
     });
 };
 
 if ($(".logs").length > 0) {
-    dtGenerator(".logs", [
+    window.dtGenerator(".logs", [
         { "data": "id" },
         { "data": "filename" },
         { "data": "created_at" }
-    ]);
+    ], {
+        "data": function(data) {}
+    });
 }
 
 if ($(".logentries").length > 0) {
-    dtGenerator(".logentries", [
+    window.dtGenerator(".logentries", [
         { "data": "id" },
-        { "data": "filename" },
+        { "data": "type" },
+        { "data": "entry" },
         { "data": "created_at" }
-    ]);
+    ], {
+        "url": window.location.href + "/data",
+        "data": function(data) {
+            data.type = "ERROR";
+        }
+    });
 }
 
 $(".progress").hide();

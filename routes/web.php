@@ -26,4 +26,4 @@ Route::get('/logs/view/{id}', 'LogController@view');
 Route::get('/logs/uploader', 'LogController@uploader');
 Route::post('/logs/store', 'LogController@store');
 Route::get('/logentries', 'LogEntryController@index');
-Route::post('/logentries/data', 'LogEntryController@data');
+Route::get('/logentries/data', 'LogEntryController@data');

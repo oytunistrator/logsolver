@@ -28943,7 +28943,7 @@ __webpack_require__(13);
 
 //window.Vue = require('vue');
 
-var dtGenerator = function dtGenerator(id, columns) {
+window.dtGenerator = function (id, columns, ajax) {
     columns.push({
         "targets": 7,
         "render": function render(data, type, row, meta) {
@@ -28954,17 +28954,24 @@ var dtGenerator = function dtGenerator(id, columns) {
     $(id).DataTable({
         "processing": true,
         "serverSide": true,
-        "ajax": window.location.href + "/data",
+        "ajax": ajax,
         "columns": columns
     });
 };
 
 if ($(".logs").length > 0) {
-    dtGenerator(".logs", [{ "data": "id" }, { "data": "filename" }, { "data": "created_at" }]);
+    window.dtGenerator(".logs", [{ "data": "id" }, { "data": "filename" }, { "data": "created_at" }], {
+        "data": function data(_data) {}
+    });
 }
 
 if ($(".logentries").length > 0) {
-    dtGenerator(".logentries", [{ "data": "id" }, { "data": "filename" }, { "data": "created_at" }]);
+    window.dtGenerator(".logentries", [{ "data": "id" }, { "data": "type" }, { "data": "entry" }, { "data": "created_at" }], {
+        "url": window.location.href + "/data",
+        "data": function data(_data2) {
+            _data2.type = "ERROR";
+        }
+    });
 }
 
 $(".progress").hide();
