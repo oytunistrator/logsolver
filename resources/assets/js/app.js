@@ -8,21 +8,17 @@ require('./bootstrap');
 
 //window.Vue = require('vue');
 
-window.dtGenerator = function(id, columns, ajax, order) {
-    columns.push({
-        "targets": 7,
-        "render": function(data, type, row, meta) {
-            return '<a class="btn" href="' + window.location.href + '/delete/' + row.id + '">Delete</a> <a class="btn" href="' + window.location.href + '/view/' + row.id + '">View</a>';
-        }
-    });
+window.filterData = {};
 
-    $(id).DataTable({
+window.dtGenerator = function(id, columns, ajax, order, callback) {
+    return $(id).DataTable({
         "processing": true,
         "serverSide": true,
         "ajax": ajax,
         "responsive": true,
         "columns": columns,
-        "order": order
+        "order": order,
+        "fnDrawCallback": callback
     });
 };
 
@@ -30,32 +26,53 @@ if ($(".logs").length > 0) {
     window.dtGenerator(".logs", [
         { "data": "id" },
         { "data": "filename" },
-        { "data": "created_at" }
+        { "data": "created_at" },
+        {
+            "targets": 7,
+            "render": function(data, type, row, meta) {
+                return '<a class="btn" href="' + window.location.href + '/delete/' + row.id + '">Delete</a> <a class="btn" href="' + window.location.href + '/view/' + row.id + '">View</a>';
+            }
+        }
     ], {
         "url": window.location.href + "/data",
         "data": function(data) {}
     }, [
         [1, "desc"]
-    ]);
+    ], function(oSettings) {});
 }
 
 if ($(".logentries").length > 0) {
-    window.dtGenerator(".logentries", [
+    $(".logentries-data-row").hide();
+}
+
+$(".progress").hide();
+
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+$(".filter").on('submit', function(event) {
+    event.preventDefault(); // Totally stop stuff happening
+    var defaultText = $(".filter-button").text();
+    $(".filter-button").text("Filtering...");
+    $(".filter-button").attr("disabled", "disabled");
+    window.logentries = window.dtGenerator(".logentries", [
         { "data": "id" },
         {
             "data": "type",
             "render": function(data, type, row, meta) {
                 switch (row.type) {
                     case "WARNING":
-                        return "<span class='text-warning'>" + row.type + "</span>";
+                        return "<span class='badge badge-warning'>" + row.type + "</span>";
                     case "WARN":
-                        return "<span class='text-warning'>" + row.type + "</span>";
+                        return "<span class='badge badge-warning'>" + row.type + "</span>";
                     case "INFO":
-                        return "<span class='text-info'>" + row.type + "</span>";
+                        return "<span class='badge badge-info'>" + row.type + "</span>";
                     case "ERROR":
-                        return "<span class='text-danger'>" + row.type + "</span>";
+                        return "<span class='badge badge-danger'>" + row.type + "</span>";
                     case "EXCEPTION":
-                        return "<span class='text-danger'>" + row.type + "</span>";
+                        return "<span class='badge badge-danger'>" + row.type + "</span>";
                 }
             }
         },
@@ -72,23 +89,29 @@ if ($(".logentries").length > 0) {
                 return entry;
             }
         },
-        { "data": "logdate" }
+        { "data": "logdate" },
+        {
+            "targets": 7,
+            "render": function(data, type, row, meta) {
+                return '<a class="btn" href="' + window.location.href + '/view/' + row.id + '">View</a>';
+            }
+        }
     ], {
         "url": window.location.href + "/data",
-        "data": function(data) {}
+        "data": function(data) {
+            return $.extend(data, window.filterData);
+        }
     }, [
         [1, "desc"]
-    ]);
-}
-
-$(".progress").hide();
-
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
+    ], function(oSettings) {
+        $(".filter-button").text(defaultText);
+        $(".filter-button").removeAttr("disabled");
+    });
+    var filter = $("#filter").val();
+    window.filterData.type = filter;
+    window.logentries.ajax.reload();
+    $(".logentries-data-row").show();
 });
-
 $(".ajaxUploader").on('submit', function(event) {
     event.preventDefault(); // Totally stop stuff happening
 

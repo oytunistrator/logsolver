@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Log: {{ $log['filename'] }} <div class="float-right"><a href="/logs" class="btn btn-primary btn-sm">Close</a></div></div>
+                <div class="card-header">Entry ID: <b>{{ $entry['id'] }}</b> | Type: <span class="badge badge-{{ $typeClass }}">{{ $entry['type'] }}</span> <div class="float-right"><a href="/logentries" class="btn btn-primary btn-sm">Close</a></div></div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -21,7 +21,7 @@
                     @endif
 
                     <code>
-                        {{ $contents }}
+                        {{ $entry['entry'] }}
                     </code>
                 </div>
             </div>

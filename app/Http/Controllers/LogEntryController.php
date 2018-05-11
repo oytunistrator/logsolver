@@ -36,4 +36,27 @@ class LogEntryController extends Controller
         }
         return datatables()->of($data)->toJson();
     }
+
+    public function view($id){
+        $data = [];
+        $data['entry'] = LogEntry::find($id);
+        $data['warning'] = false;
+        switch($data['entry']['type']){
+            case "WARN":
+                $data['typeClass'] = "warning";
+            case "WARNING":
+                $data['typeClass'] = "warning";
+            case "ERROR":
+                $data['typeClass'] = "danger";
+            case "EXCEPTION":
+                $data['typeClass'] = "danger";     
+            case "INFO":
+                $data['typeClass'] = "info";         
+        }
+        if(strlen($data['entry']) > 1000){
+            $data['entry'] = substr($data['entry'], 0, 1000).'...';
+            $data['warning'] = true;
+        }
+        return view('logentry/view', $data);
+    }
 }

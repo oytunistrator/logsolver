@@ -95,8 +95,8 @@ class LogController extends Controller
         $data['contents'] = Storage::get($log['filename']);
         $data['warning'] = false;
 
-        if(strlen($data['contents']) > 10000){
-            $data['contents'] = substr($data['contents'], 0, 10000).'...';
+        if(strlen($data['contents']) > 1000){
+            $data['contents'] = substr($data['contents'], 0, 1000).'...';
             $data['warning'] = true;
         }
 
