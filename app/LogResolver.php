@@ -5,6 +5,7 @@ namespace App;
 use App\Log;
 use App\LogEntry;
 use Illuminate\Support\Facades\Storage;
+use \DateTime;
 
 class LogResolver
 {
@@ -70,6 +71,7 @@ class LogResolver
                 $i = 0;
                 foreach($lines as $line){
                     if($this->settings['splitter']){
+                        $logdate = "";
                         $content = explode($this->settings['splitter'], $line);
                         if(!empty($content[$this->settings['logstart']])){
                             $content = $content[$this->settings['logstart']];
@@ -80,6 +82,14 @@ class LogResolver
                         $content = $line;
                     }
 
+                    $re = '/(\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2}.\d{3})/m';
+                    preg_match_all($re, $line, $matches, PREG_SET_ORDER, 0);
+
+                    if(!empty($matches[0][0])){
+                        $d = strtotime($matches[0][0]);
+                        $logdate = date('H:i d-m-Y',$d);
+                    }
+
                     $l = 0;
                     foreach($messageArr as $checkKey => $checkContent){
                         if(preg_match($checkContent["regex"], $content)){
@@ -88,6 +98,7 @@ class LogResolver
                             $logEntry->entry = $content;
                             $logEntry->line = $l;
                             $logEntry->logs_id = $logUpdater->id;
+                            $logEntry->logdate = $logdate;
                             $logEntry->save();
                         }
                         $l++;

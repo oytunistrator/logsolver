@@ -8,7 +8,7 @@ require('./bootstrap');
 
 //window.Vue = require('vue');
 
-window.dtGenerator = function(id, columns, ajax) {
+window.dtGenerator = function(id, columns, ajax, order) {
     columns.push({
         "targets": 7,
         "render": function(data, type, row, meta) {
@@ -20,7 +20,9 @@ window.dtGenerator = function(id, columns, ajax) {
         "processing": true,
         "serverSide": true,
         "ajax": ajax,
-        "columns": columns
+        "responsive": true,
+        "columns": columns,
+        "order": order
     });
 };
 
@@ -30,22 +32,53 @@ if ($(".logs").length > 0) {
         { "data": "filename" },
         { "data": "created_at" }
     ], {
+        "url": window.location.href + "/data",
         "data": function(data) {}
-    });
+    }, [
+        [1, "desc"]
+    ]);
 }
 
 if ($(".logentries").length > 0) {
     window.dtGenerator(".logentries", [
         { "data": "id" },
-        { "data": "type" },
-        { "data": "entry" },
-        { "data": "created_at" }
+        {
+            "data": "type",
+            "render": function(data, type, row, meta) {
+                switch (row.type) {
+                    case "WARNING":
+                        return "<span class='text-warning'>" + row.type + "</span>";
+                    case "WARN":
+                        return "<span class='text-warning'>" + row.type + "</span>";
+                    case "INFO":
+                        return "<span class='text-info'>" + row.type + "</span>";
+                    case "ERROR":
+                        return "<span class='text-danger'>" + row.type + "</span>";
+                    case "EXCEPTION":
+                        return "<span class='text-danger'>" + row.type + "</span>";
+                }
+            }
+        },
+        {
+            "data": "entry",
+            "className": 'entry',
+            "render": function(data, type, row, meta) {
+                var entry = "";
+                if (row.entry.length > 50) {
+                    entry += row.entry.substring(0, 50) + "...";
+                } else {
+                    entry += row.entry;
+                }
+                return entry;
+            }
+        },
+        { "data": "logdate" }
     ], {
         "url": window.location.href + "/data",
-        "data": function(data) {
-            data.type = "ERROR";
-        }
-    });
+        "data": function(data) {}
+    }, [
+        [1, "desc"]
+    ]);
 }
 
 $(".progress").hide();

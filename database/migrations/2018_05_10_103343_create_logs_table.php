@@ -19,6 +19,7 @@ class CreateLogsTable extends Migration
             $table->boolean('done');
             $table->bigInteger('linecount');
             $table->timestamps();
+            $table->index(['id']);
         });
     }
 

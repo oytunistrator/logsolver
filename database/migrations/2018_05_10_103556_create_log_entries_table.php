@@ -19,7 +19,9 @@ class CreateLogEntriesTable extends Migration
             $table->text("entry")->nullable(true);
             $table->integer("logs_id");
             $table->bigInteger("line");
+            $table->text("logdate");
             $table->timestamps();
+            $table->index(['id']);
         });
     }
 
