@@ -63,7 +63,7 @@ class LogResolver
 
         foreach($logs as $log){
             $logUpdater = Log::find($log->id);
-            if( $log->done !== true ){
+            if( $logUpdater->done !== true ){
                 $logFileContent = Storage::get($log->filename);
 
                 $lines = explode("\n", $logFileContent);
