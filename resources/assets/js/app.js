@@ -5,6 +5,7 @@
  */
 
 require('./bootstrap');
+var confirm = require('confirm-dialog');
 
 //window.Vue = require('vue');
 
@@ -112,6 +113,21 @@ $(".filter").on('submit', function(event) {
     window.logentries.ajax.reload();
     $(".logentries-data-row").show();
 });
+
+$(".cleanDbAjax").on('click', function(event) {
+    var option = $(event.target).attr('data-module');
+    var ask = confirm("<b class=\"text-danger\">Cleaning functions are too dangerous! <br> Are you sure to clean?</b>").then(function() {
+        $.ajax({
+            "url": "/admin/clear/" + option,
+            "type": 'POST',
+            "dataType": 'json',
+            "success": function(data) {
+                document.location.reload(true);
+            }
+        });
+    });
+});
+
 $(".ajaxUploader").on('submit', function(event) {
     event.preventDefault(); // Totally stop stuff happening
 
