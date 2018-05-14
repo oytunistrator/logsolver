@@ -26,6 +26,16 @@ window.dtGenerator = function(id, columns, ajax, order, callback) {
 if ($(".logs").length > 0) {
     window.dtGenerator(".logs", [
         { "data": "id" },
+        {
+            "targets": 2,
+            "render": function(data, type, row, meta) {
+                if (row.done == "1") {
+                    return "<span class='badge badge-info'>Finished</span>";
+                } else {
+                    return "<span class='badge badge-warning'>Working</span>";
+                }
+            }
+        },
         { "data": "filename" },
         { "data": "created_at" },
         {

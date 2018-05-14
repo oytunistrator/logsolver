@@ -19,6 +19,7 @@
                         <thead>
                             <tr>
                                 <th>IDX</th>
+                                <th>Status</th>
                                 <th>FileName</th>
                                 <th>Date/Time</th>
                                 <th></th>
