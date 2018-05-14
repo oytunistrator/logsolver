@@ -59,12 +59,11 @@ class LogResolver
         ];
 
 
-        $logs = Log::all();
+        $logs = Log::where('done', false)->get();
 
         foreach($logs as $log){
             $logUpdater = Log::find($log->id);
-            if( $logUpdater->done !== true ){
-                $logFileContent = Storage::get($log->filename);
+            $logFileContent = Storage::get($log->filename);
 
                 $lines = explode("\n", $logFileContent);
 
@@ -110,7 +109,6 @@ class LogResolver
                 $logUpdater->linecount = $i;
                 $logUpdater->done = true;
                 $logUpdater->save();
-            }
         }
     }
 }
