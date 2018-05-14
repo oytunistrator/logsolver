@@ -169,18 +169,9 @@ $(".ajaxUploader").on('submit', function(event) {
             // Upload progress
             xhr.upload.addEventListener("progress", function(evt) {
                 if (evt.lengthComputable) {
-                    var percentComplete = evt.loaded / evt.total;
+                    var percentComplete = evt.loaded / evt.total * 100;
                     //Do something with upload progress
-                    $('.progress-bar').css('width', percentComplete + '%').attr('aria-valuenow', percentComplete);
-                }
-            }, false);
-
-            // Download progress
-            xhr.addEventListener("progress", function(evt) {
-                if (evt.lengthComputable) {
-                    var percentComplete = evt.loaded / evt.total;
-                    // Do something with download progress
-                    $('.progress-bar').css('width', percentComplete + '%').attr('aria-valuenow', percentComplete);
+                    $('div.progress > div.progress-bar').css('width', percentComplete + '%').text(percentComplete + "%");
                 }
             }, false);
 
