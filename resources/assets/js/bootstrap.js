@@ -17,6 +17,7 @@ try {
     require('datatables.net-bs4');
     require('datatables.net-buttons');
 
+
 } catch (e) {}
 
 /**

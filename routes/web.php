@@ -23,3 +23,5 @@ Route::post('/logs/store', 'LogController@store');
 Route::get('/logentries', 'LogEntryController@index');
 Route::get('/logentries/view/{id}', 'LogEntryController@view');
 Route::get('/logentries/data', 'LogEntryController@data');
+Route::get('/admin', 'AdminController@panel');
+Route::post('/admin/clear/{option}', 'AdminController@clearPost');
