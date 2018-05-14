@@ -171,7 +171,7 @@ $(".ajaxUploader").on('submit', function(event) {
                 if (evt.lengthComputable) {
                     var percentComplete = evt.loaded / evt.total * 100;
                     //Do something with upload progress
-                    $('div.progress > div.progress-bar').css('width', percentComplete + '%').text(percentComplete + "%");
+                    $('div.progress > div.progress-bar').css('width', percentComplete + '%');
                 }
             }, false);
 
