@@ -41,7 +41,7 @@ if ($(".logs").length > 0) {
         {
             "targets": 7,
             "render": function(data, type, row, meta) {
-                return '<a class="btn" href="' + window.location.href + '/delete/' + row.id + '">Delete</a> <a class="btn" href="' + window.location.href + '/view/' + row.id + '">View</a>';
+                return '<a class="btn deleteObject" href="' + window.location.href + '/delete/' + row.id + '" >Delete</a> <a class="btn" href="' + window.location.href + '/view/' + row.id + '" target="_blank">View</a>';
             }
         }
     ], {
@@ -129,6 +129,20 @@ $(".cleanDbAjax").on('click', function(event) {
     var ask = confirm("<b class=\"text-danger\">Cleaning functions are too dangerous! <br> Are you sure to clean?</b>").then(function() {
         $.ajax({
             "url": "/admin/clear/" + option,
+            "type": 'POST',
+            "dataType": 'json',
+            "success": function(data) {
+                document.location.reload(true);
+            }
+        });
+    });
+});
+
+$(".deleteObj").on('click', function(event) {
+    var url = $(event.target).attr('href');
+    var ask = confirm("<b class=\"text-danger\">Are you sure to delete?</b>").then(function() {
+        $.ajax({
+            "url": url,
             "type": 'POST',
             "dataType": 'json',
             "success": function(data) {
