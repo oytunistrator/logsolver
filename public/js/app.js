@@ -29011,7 +29011,16 @@ window.dtGenerator = function (id, columns, ajax, order, callback) {
 };
 
 if ($(".logs").length > 0) {
-    window.dtGenerator(".logs", [{ "data": "id" }, { "data": "filename" }, { "data": "created_at" }, {
+    window.dtGenerator(".logs", [{ "data": "id" }, {
+        "targets": 2,
+        "render": function render(data, type, row, meta) {
+            if (row.done == "1") {
+                return "<span class='badge badge-info'>Finished</span>";
+            } else {
+                return "<span class='badge badge-warning'>Working</span>";
+            }
+        }
+    }, { "data": "filename" }, { "data": "created_at" }, {
         "targets": 7,
         "render": function render(data, type, row, meta) {
             return '<a class="btn" href="' + window.location.href + '/delete/' + row.id + '">Delete</a> <a class="btn" href="' + window.location.href + '/view/' + row.id + '">View</a>';
