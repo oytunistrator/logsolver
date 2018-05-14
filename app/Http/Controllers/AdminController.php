@@ -18,7 +18,7 @@ class AdminController extends Controller
 
 
     function clearPost($option){
-        $result['result'] = "false"; 
+        $result['result'] = false; 
         switch($option){
             case "logs":
                 $result['result'] = Log::truncate();
